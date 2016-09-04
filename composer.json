@@ -5,7 +5,10 @@
     "autoload": {
         "classmap": [
            "soapclient"
-        ]
+        ],
+        "psr-4": {
+            "SoapClient\\": "vendor/developerforce/force.com-toolkit-for-php/soapclient"
+        }
     },
     "extra": {
         "branch-alias": {
