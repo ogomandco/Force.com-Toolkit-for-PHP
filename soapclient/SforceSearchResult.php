@@ -27,20 +27,30 @@
 
 namespace Ogomandco\SalesForce;
 
-define ("DEPLOYMENT_STATUS_INDEVELOPMENT", 'InDevelopment');
-define ("DEPLOYMENT_STATUS_DEPLOYED", 'Deployed');
+/**
+ * @package SalesForce
+ */
 
-define ("GENDER_NEUTER", 'Neuter');
-define ("GENDER_MASCULINE", 'Masculine');
-define ("GENDER_FEMININE", 'Feminine');
+class SforceSearchResult {
+	public $searchRecords;
 
-define ("SHARING_MODEL_PRIVATE", 'Private');
-define ("SHARING_MODEL_READ", 'Read');
-define ("SHARING_MODEL_READWRITE", 'ReadWrite');
+	public function __construct($response) {
 
-define ("STARTS_WITH_CONSONANT", 'Consonant');
-define ("STARTS_WITH_VOWEL", 'Vowel');
-define ("STARTS_WITH_SPECIAL", 'Special');
-
-define ("TREAT_BLANKS_AS_BLANK", 'BlankAsBlank');
-define ("TREAT_BLANKS_AS_ZERO", 'BlankAsZero');
+		if($response instanceof SforceSearchResult) {
+			$this->searchRecords = $response->searchRecords;
+		} else {
+			$this->searchRecords = array();
+			if (isset($response->searchRecords)) {
+				if (is_array($response->searchRecords)) {
+					foreach ($response->searchRecords as $record) {
+						$sobject = new SObject($record->record);
+						array_push($this->searchRecords, $sobject);
+					};
+				} else {
+					$sobject = new SObject($response->searchRecords->record);
+					array_push($this->records, $sobject);
+				}
+			}
+		}
+	}
+}

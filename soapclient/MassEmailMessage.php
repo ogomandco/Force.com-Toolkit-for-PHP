@@ -27,20 +27,18 @@
 
 namespace Ogomandco\SalesForce;
 
-define ("DEPLOYMENT_STATUS_INDEVELOPMENT", 'InDevelopment');
-define ("DEPLOYMENT_STATUS_DEPLOYED", 'Deployed');
+use Email;
 
-define ("GENDER_NEUTER", 'Neuter');
-define ("GENDER_MASCULINE", 'Masculine');
-define ("GENDER_FEMININE", 'Feminine');
+class MassEmailMessage extends Email {
+  public function setTemplateId($templateId) {
+    $this->templateId = $templateId;
+  }
 
-define ("SHARING_MODEL_PRIVATE", 'Private');
-define ("SHARING_MODEL_READ", 'Read');
-define ("SHARING_MODEL_READWRITE", 'ReadWrite');
+  public function setWhatIds($array) {
+    $this->whatIds = $array;
+  }
 
-define ("STARTS_WITH_CONSONANT", 'Consonant');
-define ("STARTS_WITH_VOWEL", 'Vowel');
-define ("STARTS_WITH_SPECIAL", 'Special');
-
-define ("TREAT_BLANKS_AS_BLANK", 'BlankAsBlank');
-define ("TREAT_BLANKS_AS_ZERO", 'BlankAsZero');
+  public function setTargetObjectIds($array) {
+    $this->targetObjectIds = $array;
+  }
+}

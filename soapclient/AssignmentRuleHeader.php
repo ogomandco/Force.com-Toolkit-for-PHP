@@ -27,20 +27,30 @@
 
 namespace Ogomandco\SalesForce;
 
-define ("DEPLOYMENT_STATUS_INDEVELOPMENT", 'InDevelopment');
-define ("DEPLOYMENT_STATUS_DEPLOYED", 'Deployed');
+/**
+ * To be used with Create and Update operations.
+ * Only one attribute can be set at a time.
+ *
+ * @package SalesforceSoapClient
+ */
+class AssignmentRuleHeader {
+    // int
+    public $assignmentRuleId;
+    // boolean
+    public $useDefaultRuleFlag;
 
-define ("GENDER_NEUTER", 'Neuter');
-define ("GENDER_MASCULINE", 'Masculine');
-define ("GENDER_FEMININE", 'Feminine');
-
-define ("SHARING_MODEL_PRIVATE", 'Private');
-define ("SHARING_MODEL_READ", 'Read');
-define ("SHARING_MODEL_READWRITE", 'ReadWrite');
-
-define ("STARTS_WITH_CONSONANT", 'Consonant');
-define ("STARTS_WITH_VOWEL", 'Vowel');
-define ("STARTS_WITH_SPECIAL", 'Special');
-
-define ("TREAT_BLANKS_AS_BLANK", 'BlankAsBlank');
-define ("TREAT_BLANKS_AS_ZERO", 'BlankAsZero');
+    /**
+     * Constructor.  Only one param can be set.
+     *
+     * @param int $id  AssignmentRuleId
+     * @param boolean $flag  UseDefaultRule flag
+     */
+    public function __construct($id = NULL, $flag = NULL) {
+        if ($id != NULL) {
+            $this->assignmentRuleId = $id;
+        }
+        if ($flag != NULL) {
+            $this->useDefaultRuleFlag = $flag;
+        }
+    }
+}

@@ -27,20 +27,58 @@
 
 namespace Ogomandco\SalesForce;
 
-define ("DEPLOYMENT_STATUS_INDEVELOPMENT", 'InDevelopment');
-define ("DEPLOYMENT_STATUS_DEPLOYED", 'Deployed');
+use Email;
 
-define ("GENDER_NEUTER", 'Neuter');
-define ("GENDER_MASCULINE", 'Masculine');
-define ("GENDER_FEMININE", 'Feminine');
+class SingleEmailMessage extends Email {
+  public function __construct() {}
 
-define ("SHARING_MODEL_PRIVATE", 'Private');
-define ("SHARING_MODEL_READ", 'Read');
-define ("SHARING_MODEL_READWRITE", 'ReadWrite');
 
-define ("STARTS_WITH_CONSONANT", 'Consonant');
-define ("STARTS_WITH_VOWEL", 'Vowel');
-define ("STARTS_WITH_SPECIAL", 'Special');
+  public function setBccAddresses($addresses) {
+    $this->bccAddresses = $addresses;
+  }
+  public $ccAddresses;
 
-define ("TREAT_BLANKS_AS_BLANK", 'BlankAsBlank');
-define ("TREAT_BLANKS_AS_ZERO", 'BlankAsZero');
+  public function setCcAddresses($addresses) {
+    $this->ccAddresses = $addresses;
+  }
+
+  public function setCharset($charset) {
+    $this->charset = $charset;
+  }
+
+  public function setHtmlBody($htmlBody) {
+    $this->htmlBody = $htmlBody;
+  }
+
+  public function setOrgWideEmailAddressId($orgWideEmailAddressId) {
+    $this->orgWideEmailAddressId = $orgWideEmailAddressId;
+  }
+
+  public function setPlainTextBody($plainTextBody) {
+    $this->plainTextBody = $plainTextBody;
+  }
+
+  public function setTargetObjectId($targetObjectId) {
+    $this->targetObjectId = $targetObjectId;
+  }
+
+  public function setTemplateId($templateId) {
+    $this->templateId = $templateId;
+  }
+
+  public function setToAddresses($array) {
+    $this->toAddresses = $array;
+  }
+
+  public function setWhatId($whatId) {
+    $this->whatId = $whatId;
+  }
+
+  public function setFileAttachments($array) {
+    $this->fileAttachments = $array;
+  }
+
+  public function setDocumentAttachments($array) {
+    $this->documentAttachments = $array;
+  }
+}

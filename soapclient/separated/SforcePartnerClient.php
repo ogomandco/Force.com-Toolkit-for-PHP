@@ -27,19 +27,63 @@
 
 namespace Ogomandco\SalesForce;
 
-use SforceBaseClient;
+require_once ('SforceBaseClient.php');
+//require_once ('SforceEmail.php');
 
+
+/**
+ * This file contains two classes.
+ * @package SalesforceSoapClient
+ */
+/**
+ * SforceSoapClient class.
+ *
+ * @package SalesforceSoapClient
+ */
+ // When parsing partner WSDL, when PHP SOAP sees NewValue and OldValue, since
+ // the element has a xsi:type attribute with value 'string', it drops the
+ // string content into the parsed output and loses the tag name. Removing the
+ // xsi:type forces PHP SOAP to just leave the tags intact
+ class SforceSoapClient extends SoapClient {
+   function __doRequest($request, $location, $action, $version, $one_way=0) {
+     $response = parent::__doRequest($request, $location, $action, $version, $one_way);
+
+     // Quick check to only parse the XML here if we think we need to
+     if (strpos($response, '<sf:OldValue') === false && strpos($response, '<sf:NewValue') === false) {
+       return $response;
+     }
+
+     $dom = new DOMDocument();
+     $dom->loadXML($response);
+
+     $nodeList = $dom->getElementsByTagName('NewValue');
+     foreach ($nodeList as $node) {
+       $node->removeAttributeNS('http://www.w3.org/2001/XMLSchema-instance', 'type');
+     }
+     $nodeList = $dom->getElementsByTagName('OldValue');
+     foreach ($nodeList as $node) {
+       $node->removeAttributeNS('http://www.w3.org/2001/XMLSchema-instance', 'type');
+     }
+
+     return $dom->saveXML();      
+   }
+ }
+
+/**
+ * SforcePartnerClient class.
+ *
+ * @package SalesforceSoapClient
+ */
 class SforcePartnerClient extends SforceBaseClient {
-
   const PARTNER_NAMESPACE = 'urn:partner.soap.sforce.com';
-  
+	
   function SforcePartnerClient() {
     $this->namespace = self::PARTNER_NAMESPACE;
   }
   
   protected function getSoapClient($wsdl, $options) {
     // Workaround an issue in parsing OldValue and NewValue in histories
-    return new SforceSoapClient($wsdl, $options);      
+		return new SforceSoapClient($wsdl, $options);      
   }
 
   /**
@@ -141,7 +185,7 @@ class SforcePartnerClient extends SforceBaseClient {
    * @return UpsertResult
    */
   public function upsert($ext_Id, $sObjects) {
-    //    $this->_setSessionHeader();
+    //		$this->_setSessionHeader();
     $arg = new stdClass;
     $arg->externalIDFieldName = new SoapVar($ext_Id, XSD_STRING, 'string', 'http://www.w3.org/2001/XMLSchema');
     foreach ($sObjects as $sObject) {
@@ -160,7 +204,7 @@ class SforcePartnerClient extends SforceBaseClient {
    * @return string
    */
   public function retrieve($fieldList, $sObjectType, $ids) {
-    return $this->_retrieveResult(parent::retrieve($fieldList, $sObjectType, $ids));
+  	return $this->_retrieveResult(parent::retrieve($fieldList, $sObjectType, $ids));
   }  
 
   /**
@@ -169,17 +213,17 @@ class SforcePartnerClient extends SforceBaseClient {
    * @return array
    */
   private function _retrieveResult($response) {
-    $arr = array();
-    if(is_array($response)) {
-      foreach($response as $r) {
-        $sobject = new SObject($r);
-        array_push($arr,$sobject);
-      };
-    }else {
-      $sobject = new SObject($response);
+  	$arr = array();
+  	if(is_array($response)) {
+  		foreach($response as $r) {
+  			$sobject = new SObject($r);
+  			array_push($arr,$sobject);
+  		};
+  	}else {
+  		$sobject = new SObject($response);
         array_push($arr, $sobject);
-    }
-    return $arr;
+  	}
+  	return $arr;
   }
   
 }

@@ -24,7 +24,10 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-require_once ('SforceMetaObject.php');
+
+namespace Ogomandco\SalesForce;
+
+use SforceMetaObject;
 
 class SforceMetadataClient {
   public $sforce;
@@ -38,9 +41,9 @@ class SforceMetadataClient {
 
     $soapClientArray = null;
     
-	  $phpversion = substr(phpversion(), 0, strpos(phpversion(), '-'));
-//		if (phpversion() > '5.1.2') {
-	  if ($phpversion > '5.1.2') {
+    $phpversion = substr(phpversion(), 0, strpos(phpversion(), '-'));
+
+    if ($phpversion > '5.1.2') {
       $soapClientArray = array (
       'user_agent' => 'salesforce-toolkit-php/'.$this->version,
       'encoding' => 'utf-8',
@@ -50,7 +53,7 @@ class SforceMetadataClient {
       );
     } else {
       $soapClientArray = array (
-	  'user_agent' => 'salesforce-toolkit-php/'.$this->version,
+    'user_agent' => 'salesforce-toolkit-php/'.$this->version,
       'encoding' => 'utf-8',
       'trace' => 1,
       'sessionId' => $loginResult->sessionId
@@ -167,9 +170,4 @@ class SforceMetadataClient {
   public function getLastResponseHeaders() {
     return $this->sforce->__getLastResponseHeaders();
   }
-
-
 }
-
-
-?>

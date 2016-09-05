@@ -24,6 +24,9 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+
+namespace Ogomandco\SalesForce;
+
 define ("EMAIL_PRIORITY_HIGHEST", 'Highest');
 define ("EMAIL_PRIORITY_HIGH", 'High');
 define ("EMAIL_PRIORITY_NORMAL", 'Normal');
@@ -59,72 +62,3 @@ class Email {
     $this->senderDisplayName = $name;
   }
 }
-
-class SingleEmailMessage extends Email {
-  public function __construct() {}
-
-
-  public function setBccAddresses($addresses) {
-    $this->bccAddresses = $addresses;
-  }
-  public $ccAddresses;
-
-  public function setCcAddresses($addresses) {
-    $this->ccAddresses = $addresses;
-  }
-
-  public function setCharset($charset) {
-    $this->charset = $charset;
-  }
-
-  public function setHtmlBody($htmlBody) {
-    $this->htmlBody = $htmlBody;
-  }
-
-  public function setOrgWideEmailAddressId($orgWideEmailAddressId) {
-    $this->orgWideEmailAddressId = $orgWideEmailAddressId;
-  }
-
-  public function setPlainTextBody($plainTextBody) {
-    $this->plainTextBody = $plainTextBody;
-  }
-
-  public function setTargetObjectId($targetObjectId) {
-    $this->targetObjectId = $targetObjectId;
-  }
-
-  public function setTemplateId($templateId) {
-    $this->templateId = $templateId;
-  }
-
-  public function setToAddresses($array) {
-    $this->toAddresses = $array;
-  }
-
-  public function setWhatId($whatId) {
-    $this->whatId = $whatId;
-  }
-
-  public function setFileAttachments($array) {
-    $this->fileAttachments = $array;
-  }
-
-  public function setDocumentAttachments($array) {
-    $this->documentAttachments = $array;
-  }
-}
-
-class MassEmailMessage extends Email {
-  public function setTemplateId($templateId) {
-    $this->templateId = $templateId;
-  }
-
-  public function setWhatIds($array) {
-    $this->whatIds = $array;
-  }
-
-  public function setTargetObjectIds($array) {
-    $this->targetObjectIds = $array;
-  }
-}
-?>

@@ -3,11 +3,8 @@
     "description": "A wrapper for the Force.com Web Services SOAP API",
     "license": "BSD-3-Clause",
     "autoload": {
-        "classmap": [
-           "soapclient"
-        ],
         "psr-4": {
-            "SoapClient\\": "vendor/developerforce/force.com-toolkit-for-php/soapclient"
+            "Ogomandco\\SalesForce\\": "soapclient/"
         }
     },
     "extra": {
